@@ -10,7 +10,7 @@ server.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'cimatec',
+    password: 'Gab123',
     database: 'crud_node'
 });
 
