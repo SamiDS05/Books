@@ -76,7 +76,6 @@ res.json({message: 'Dados atualizados!'})
 server.delete('/deleteBooks/:idbooks', (req,res) => {
 
     const {idbooks} = req.params
-    const {nome, autor, ano, genero} = req.body   
     const query = 'DELETE FROM books WHERE idbooks = ?'
    
     db.query(query, [idbooks], (err,results) => {
