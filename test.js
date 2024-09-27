@@ -10,7 +10,7 @@ server.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Gab123',
+    password: 'cimatec',
     database: 'crud_node'
 });
 
@@ -29,7 +29,7 @@ server.get('/', function(req, res){
 
 
 
-server.post("/books", (req, res) => {
+server.post('/books', (req, res) => {
     const { nome, autor, ano, genero } = req.body;
     const query = 'INSERT INTO books (nome, autor, ano, genero) VALUES (?, ?, ?, ?)';
     db.query(query, [nome, autor, ano, genero], (error, results) => {
@@ -41,7 +41,7 @@ server.post("/books", (req, res) => {
 });
 
 
-server.get("/searchBooks", (req, res) =>{
+server.get('/searchBooks', (req, res) =>{
 
     const query = 'SELECT * FROM books'
 
@@ -55,13 +55,13 @@ server.get("/searchBooks", (req, res) =>{
 })
 
 
-server.put("/updateBooks:idbooks", (req,res) =>{
+server.put('/updateBooks/:idbooks', (req,res) =>{
 
  const {idbooks} = req.params
  const {nome, autor, ano, genero} = req.body   
  const query = 'UPDATE books SET nome = ?, autor = ?, ano = ?, genero = ? WHERE idbooks = ?'
 
- db.query(query, [nome, autor, ano, genero], (err,results) => {
+ db.query(query, [nome, autor, ano, genero, idbooks], (err,results) => {
 
 if(err){
 
@@ -73,7 +73,7 @@ res.json({message: 'Dados atualizados!'})
  })
 })
 
-server.delete("/deleteBooks:idbooks", (req,res) => {
+server.delete('/deleteBooks/:idbooks', (req,res) => {
 
     const {idbooks} = req.params
     const {nome, autor, ano, genero} = req.body   
