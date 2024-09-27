@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
         <h1>
             BookStore
         </h1>
-        <form action="/books" method="post">   
+        <form id="insertForm">   
             <label for="Nome">Título:</label>
             <input type="text" id="nome" name="nome" required>
             <label for="Autor">Autor:</label>
@@ -20,11 +20,11 @@
             <label for="Genero">Gênero:</label>
             <input type="text" id="genero" name="genero" required>
             <br><br>
-            <button type="submit" onclick="fetchData()">Register Book</button>
+            <button type="submit">Register Book</button>
         </form>
 
         <h2>Books Register</h2>
-        <table border="1" id="dataTable"></table>
+        <table border="1" >
         <thead>
             <tr>
                 <th>ID</th>
@@ -35,7 +35,8 @@
                 <th>Ação</th>
             </tr>
         </thead>
-        <tbody id="Books-List"></tbody>
+        <tbody id="dataTable"></tbody>
+    </table>
     </center>
     <script>
     function fetchData() {
@@ -53,8 +54,8 @@
                                 <td contenteditable="true">${row.ano}</td>
                                 <td contenteditable="true">${row.genero}</td>
                                 <td>
-                                    <button class="icon-button" onclick="deleteData(${row.idbooks})">🗑️</button>
-                                    <button class="icon-button" onclick="updateData(${row.idbooks})">✏️</button>
+                                    <button onclick="deleteData(${row.idbooks})">🗑️</button>
+                                    <button onclick="updateData(${row.idbooks})">✏️</button>
                                 </td>
                             </tr>
                         `;
@@ -63,7 +64,7 @@
         }
 
         function deleteData(idbooks) {
-            fetch(`/delete/${idbooks}`, { method: 'DELETE' })
+            fetch(`/deleteBooks/${idbooks}`, { method: 'DELETE' })
                 .then(response => response.json())
                 .then(data => {
                     alert(data.message);
@@ -74,15 +75,18 @@
         
         function updateData(idbooks) {
             const row = document.querySelector(`button[onclick="updateData(${idbooks})"]`).parentNode.parentNode;
-            const nome = row.cells[0].textContent;
-            const email = row.cells[1].textContent;
-            const telefone = row.cells[2].textContent;
-            fetch(`/update/${idbooks}`, {
+            const id = row.cells[0].textContent;
+            const nome = row.cells[1].textContent;
+            const autor = row.cells[2].textContent;
+            const ano = row.cells[3].textContent;
+            const genero = row.cells[4].textContent;
+
+            fetch(`/updateBooks/${idbooks}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ nome, email, telefone })
+                body: JSON.stringify({ nome, autor, ano, genero })
             })
                 .then(response => response.json())
                 .then(data => {
@@ -92,7 +96,7 @@
         }
 
         
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('insertForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
