@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prova de GitHub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2d333b;
+            --secondary-color: #22272e;
+            --text-color: #adbac7;
+            --accent-color: #539bf5;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --success-color: #347d39;
+            --error-color: #922323;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--primary-color);
+            border-radius: 15px;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-card {
+            background: var(--primary-color);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            position: relative;
+            padding: 1rem;
+            background: var(--secondary-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: rgba(83, 155, 245, 0.1);
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .option label {
+            padding-left: 2.5rem;
+            cursor: pointer;
+            display: block;
+        }
+
+        .option label:before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .option input[type="radio"]:checked + label:before {
+            background: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-top: 2rem;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #4187e0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(83, 155, 245, 0.3);
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: var(--primary-color);
+            border-radius: 15px;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .score {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .correct {
+            background: var(--success-color);
+        }
+
+        .incorrect {
+            background: var(--error-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .question-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header fade-in">
+            <h1><i class="fab fa-github"></i> Prova de GitHub</h1>
+            <p>Teste seus conhecimentos sobre o GitHub</p>
+        </div>
+
+        <form id="github-quiz" class="fade-in">
+            <div class="question-card">
+                <h3 class="question-title">1. O que é o GitHub?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1a" value="a">
+                        <label for="q1a">Um editor de código</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1b" value="b">
+                        <label for="q1b">Uma plataforma de hospedagem de código e colaboração</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1c" value="c">
+                        <label for="q1c">Um sistema operacional</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1d" value="d">
+                        <label for="q1d">Uma linguagem de programação</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-title">2. O que é um repositório no GitHub?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2a" value="a">
+                        <label for="q2a">Um tipo de arquivo de código</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2b" value="b">
+                        <label for="q2b">Um diretório que contém todos os arquivos do projeto e histórico de versões</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2c" value="c">
+                        <label for="q2c">Uma ferramenta de compilação</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2d" value="d">
+                        <label for="q2d">Um programa de instalação</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-title">3. O que é um commit?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3a" value="a">
+                        <label for="q3a">Um erro no código</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3b" value="b">
+                        <label for="q3b">Uma mensagem de erro</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3c" value="c">
+                        <label for="q3c">Um registro de alterações feitas no código</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3d" value="d">
+                        <label for="q3d">Uma branch do repositório</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-title">4. O que é um pull request?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4a" value="a">
+                        <label for="q4a">Uma solicitação para mesclar alterações de código</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4b" value="b">
+                        <label for="q4b">Um comando para baixar arquivos</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4c" value="c">
+                        <label for="q4c">Uma solicitação para excluir um repositório</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4d" value="d">
+                        <label for="q4d">Um tipo de branch</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-title">5. Para que serve o arquivo README.md?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5a" value="a">
+                        <label for="q5a">Para executar o projeto</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5b" value="b">
+                        <label for="q5b">Para documentar e descrever o projeto</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5c" value="c">
+                        <label for="q5c">Para compilar o código</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5d" value="d">
+                        <label for="q5d">Para configurar o Git</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Enviar Respostas</button>
+        </form>
+
+        <div id="result" class="result fade-in">
+            <h2>Resultado</h2>
+            <div class="score">
+                <span id="score">0</span>/5
+            </div>
+            <div id="feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('github-quiz').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'c',
+                q4: 'a',
+                q5: 'b'
+            };
+
+            let score = 0;
+            let feedback = '';
+
+            // Verificar respostas
+            for (let i = 1; i <= 5; i++) {
+                const question = document.querySelector(`input[name="q${i}"]:checked`);
+                if (question) {
+                    if (question.value === correctAnswers[`q${i}`]) {
+                        score++;
+                        feedback += `<p class="correct">Questão ${i}: Correta!</p>`;
+                    } else {
+                        feedback += `<p class="incorrect">Questão ${i}: Incorreta</p>`;
+                    }
+                } else {
+                    feedback += `<p class="incorrect">Questão ${i}: Não respondida</p>`;
+                }
+            }
+
+            // Mostrar resultado
+            document.getElementById('score').textContent = score;
+            document.getElementById('feedback').innerHTML = feedback;
+            document.getElementById('result').style.display = 'block';
+
+            // Scroll suave até o resultado
+            document.getElementById('result').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Adicionar animação às questões conforme o scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.question-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
